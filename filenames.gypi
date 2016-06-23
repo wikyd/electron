@@ -66,6 +66,7 @@
       'lib/renderer/api/web-frame.js',
       'lib/renderer/extensions/event.js',
       'lib/renderer/extensions/i18n.js',
+      'lib/renderer/extensions/request.js',
       'lib/renderer/extensions/storage.js',
       'lib/renderer/extensions/web-navigation.js',
     ],
