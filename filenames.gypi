@@ -66,8 +66,11 @@
       'lib/renderer/api/web-frame.js',
       'lib/renderer/extensions/event.js',
       'lib/renderer/extensions/i18n.js',
+      'lib/renderer/extensions/message-sender.js',
+      'lib/renderer/extensions/port.js',
       'lib/renderer/extensions/request.js',
       'lib/renderer/extensions/storage.js',
+      'lib/renderer/extensions/tab.js',
       'lib/renderer/extensions/web-navigation.js',
     ],
     'js2c_sources': [
