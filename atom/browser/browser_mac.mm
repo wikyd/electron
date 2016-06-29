@@ -141,6 +141,31 @@ bool Browser::ContinueUserActivity(const std::string& type,
   return prevent_default;
 }
 
+void Browser::RemoteNotificationTokenRegistered(const std::string& token) {
+  FOR_EACH_OBSERVER(BrowserObserver,
+                    observers_,
+                    OnRemoteNotificationTokenRegistered(token));
+}
+
+void Browser::RemoteNotificationTokenRegistrationFailed(
+      const std::string& description,
+      int code,
+      const std::string& domain,
+      const base::DictionaryValue& user_info) {
+
+  FOR_EACH_OBSERVER(BrowserObserver,
+                    observers_,
+                    OnRemoteNotificationTokenRegistrationFailed(
+                      description, code, domain, user_info
+                    ));
+}
+
+void Browser::RemoteNotificationReceived(const base::DictionaryValue& user_info) {
+  FOR_EACH_OBSERVER(BrowserObserver,
+                    observers_,
+                    OnRemoteNotificationReceived(user_info));
+}
+
 std::string Browser::GetExecutableFileVersion() const {
   return brightray::GetApplicationVersion();
 }

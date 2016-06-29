@@ -74,4 +74,43 @@ continueUserActivity:(NSUserActivity*)userActivity
   return browser->ContinueUserActivity(activity_type, *user_info) ? YES : NO;
 }
 
+- (void)application:(NSApplication *)application
+  didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+
+  const unsigned *tokenBytes = (const unsigned *)[deviceToken bytes];
+  NSString *hexToken = [NSString stringWithFormat:@"%08x%08x%08x%08x%08x%08x%08x%08x",
+                       ntohl(tokenBytes[0]), ntohl(tokenBytes[1]), ntohl(tokenBytes[2]),
+                       ntohl(tokenBytes[3]), ntohl(tokenBytes[4]), ntohl(tokenBytes[5]),
+                       ntohl(tokenBytes[6]), ntohl(tokenBytes[7])];
+
+  std::string token_str(base::SysNSStringToUTF8(hexToken));
+
+  atom::Browser* browser = atom::Browser::Get();
+  browser->RemoteNotificationTokenRegistered(token_str);
+}
+
+- (void)application:(NSApplication *)application
+  didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+
+  std::string description_str(base::SysNSStringToUTF8([error localizedDescription]));
+  std::string domain_str(base::SysNSStringToUTF8([error domain]));
+  std::unique_ptr<base::DictionaryValue> user_info =
+      atom::NSDictionaryToDictionaryValue([error userInfo]);
+
+  atom::Browser* browser = atom::Browser::Get();
+  browser->RemoteNotificationTokenRegistrationFailed(
+    description_str, [error code], domain_str, *user_info
+  );
+}
+
+- (void)application:(NSApplication *)application
+  didReceiveRemoteNotification:(NSDictionary *)userInfo {
+
+  std::unique_ptr<base::DictionaryValue> user_info =
+      atom::NSDictionaryToDictionaryValue(userInfo);
+
+  atom::Browser* browser = atom::Browser::Get();
+  browser->RemoteNotificationReceived(*user_info);
+}
+
 @end

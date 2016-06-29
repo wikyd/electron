@@ -58,6 +58,19 @@ class BrowserObserver {
       bool* prevent_default,
       const std::string& type,
       const base::DictionaryValue& user_info) {}
+
+  virtual void OnRemoteNotificationTokenRegistered(
+      const std::string& token) {}
+
+  virtual void OnRemoteNotificationTokenRegistrationFailed(
+      const std::string& description,
+      int code,
+      const std::string& domain,
+      const base::DictionaryValue& user_info) {}
+
+  virtual void OnRemoteNotificationReceived(
+      const base::DictionaryValue& user_info) {}
+
 #endif
 
  protected:

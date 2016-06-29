@@ -77,6 +77,14 @@ class App : public AtomBrowserClient::Delegate,
       bool* prevent_default,
       const std::string& type,
       const base::DictionaryValue& user_info) override;
+
+  void OnRemoteNotificationTokenRegistered(const std::string& token) override;
+  void OnRemoteNotificationTokenRegistrationFailed(
+      const std::string& description,
+      int code,
+      const std::string& domain,
+      const base::DictionaryValue& user_info) override;
+  void OnRemoteNotificationReceived(const base::DictionaryValue& user_info) override;
 #endif
 
   // content::ContentBrowserClient:

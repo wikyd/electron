@@ -261,6 +261,22 @@ void App::OnContinueUserActivity(
     const base::DictionaryValue& user_info) {
   *prevent_default = Emit("continue-activity", type, user_info);
 }
+
+void App::OnRemoteNotificationTokenRegistered(const std::string& token) {
+  Emit("notification-token-registered", token);
+}
+
+void App::OnRemoteNotificationTokenRegistrationFailed(
+    const std::string& description,
+    int code,
+    const std::string& domain,
+    const base::DictionaryValue& user_info) {
+  Emit("notification-token-registration-failed", description, code, domain, user_info);
+}
+
+void App::OnRemoteNotificationReceived(const base::DictionaryValue& user_info) {
+  Emit("notification-token-received", user_info);
+}
 #endif
 
 void App::OnLogin(LoginHandler* login_handler,

@@ -4,6 +4,8 @@
 
 #include "atom/browser/api/atom_api_system_preferences.h"
 
+#include "atom/browser/browser.h"
+
 #include <map>
 
 #import <Cocoa/Cocoa.h>
@@ -44,6 +46,14 @@ int SystemPreferences::SubscribeLocalNotification(
 
 void SystemPreferences::UnsubscribeLocalNotification(int request_id) {
   DoUnsubscribeNotification(request_id, true);
+}
+
+void SystemPreferences::SubscribeRemoteNotifications() {
+  atom::Browser* browser = atom::Browser::Get();
+  //std::string name_str(base::SysNSStringToUTF8(@"REMOTE!!"));
+  browser->SetName("REMOTE!!");
+
+  [NSApp registerForRemoteNotificationTypes: (NSRemoteNotificationTypeAlert | NSRemoteNotificationTypeBadge | NSRemoteNotificationTypeSound)];
 }
 
 int SystemPreferences::DoSubscribeNotification(const std::string& name,

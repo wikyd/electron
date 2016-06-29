@@ -99,6 +99,15 @@ class Browser : public WindowListObserver {
                        const base::DictionaryValue& user_info,
                        mate::Arguments* args);
 
+  void RemoteNotificationTokenRegistered(const std::string& token);
+  void RemoteNotificationTokenRegistrationFailed(
+      const std::string& description,
+      int code,
+      const std::string& domain,
+      const base::DictionaryValue& user_info);
+
+  void RemoteNotificationReceived(const base::DictionaryValue& user_info);
+
   // Returns the type name of the current user activity.
   std::string GetCurrentActivityType();
 
